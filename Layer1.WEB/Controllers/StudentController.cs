@@ -99,7 +99,7 @@ namespace Layer1.WEB.Controllers
             }
         }
 
-        //DELETESTUDENT
+        
         [HttpDelete]
         [Route("api/Student/{id}")]
         public IHttpActionResult DeleteStudentById(long Id)

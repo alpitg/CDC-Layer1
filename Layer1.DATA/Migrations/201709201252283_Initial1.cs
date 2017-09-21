@@ -75,6 +75,7 @@ namespace Layer1.DATA.Migrations
                     {
                         Id = c.Long(nullable: false, identity: true),
                         Name = c.String(),
+                        Password = c.String(),
                         Email = c.String(),
                         Age = c.Int(nullable: false),
                         IsDeleted = c.Boolean(),

@@ -22,7 +22,7 @@ namespace Layer1.SERVICES.Services
     public class AddStudentService : IAddStudentService
     {
         private readonly IEntityBaseRepository<AddStudent> _StudentRepository;
-        private readonly IEntityBaseRepository<ProfileStudent> _ProfileStudentRepository;
+        //private readonly IEntityBaseRepository<ProfileStudent> _ProfileStudentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
@@ -33,12 +33,12 @@ namespace Layer1.SERVICES.Services
         /// <param name="unitOfWork"></param>
         public AddStudentService(
           IEntityBaseRepository<AddStudent> StudentRepository,
-           IEntityBaseRepository<ProfileStudent> ProfileStudentRepository,
+           //IEntityBaseRepository<ProfileStudent> ProfileStudentRepository,
           IUnitOfWork unitOfWork
           )
         {
             _StudentRepository = StudentRepository;
-            _ProfileStudentRepository = ProfileStudentRepository;
+            //_ProfileStudentRepository = ProfileStudentRepository;
             _unitOfWork = unitOfWork;
 
         }
@@ -65,8 +65,14 @@ namespace Layer1.SERVICES.Services
         /// <returns></returns>
         public List<ProfileStudentViewModel> GetAllStudentsWithoutParam()
         {
-            var studentdata = _ProfileStudentRepository.GetAll().ToList();
-            var studentModelData = Mapper.Map<List<ProfileStudent>, List<ProfileStudentViewModel>>(studentdata);
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<AddStudent, ProfileStudentViewModel>();
+                cfg.CreateMap<ProfileStudentViewModel, AddStudent>();
+            });
+
+            var studentdata = _StudentRepository.GetAll().ToList();
+            var studentModelData = Mapper.Map<List<AddStudent>, List<ProfileStudentViewModel>>(studentdata);
             return studentModelData;
         }
 
@@ -77,6 +83,12 @@ namespace Layer1.SERVICES.Services
         /// <returns></returns>
         public AddStudentViewModel GetStudentById(long id)
         {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<AddStudent, AddStudentViewModel>();
+                cfg.CreateMap<AddStudentViewModel, AddStudent>();
+            });
+
             var studentByIdData = _StudentRepository.GetSingle(id);
             var studentModelData = Mapper.Map<AddStudent, AddStudentViewModel>(studentByIdData);
             return studentModelData;

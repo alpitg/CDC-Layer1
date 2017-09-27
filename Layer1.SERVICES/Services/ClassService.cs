@@ -44,6 +44,16 @@ namespace Layer1.SERVICES.Services
         }
         public int AddClass(AddClassViewModel addClassModel)
         {
+        
+        //Use  Mapper.Initialize when mapper problem occcured---
+        
+//          Mapper.Initialize(cfg =>
+//             {
+//                 cfg.CreateMap<AddClassViewModel, AddClass>();
+//                 cfg.CreateMap<AddClass, AddClassViewModel>();
+//             });
+        
+        
             //throw new NotImplementedException();
             var classData = Mapper.Map<AddClassViewModel, AddClass>(addClassModel);
 
